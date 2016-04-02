@@ -42,6 +42,13 @@ inline void rXc(dsComplex<Tout> &cout, dsReal<Tin1> & rin1, dsComplex<Tin2> & ci
   (out).r[i] = (in0).r(i) + (in1).r(i) + (in2).r(i);\
   (out).i[i] = (in0).i(i) + (in1).i(i) + (in2).i(i);
 
+#define i_cXc_direct( out, in1, in2 )\
+  (out).r.v[i] = (in1).r.v[i] * (in2).r.v[i] - (in1).i.v[i] * (in2).i.v[i];\
+  (out).i.v[i] = (in1).r.v[i] * (in2).i.v[i] + (in1).i.v[i] * (in2).r.v[i];
+
+#define gather_3v_direct( out, in0, in1, in2 )\
+  (out).r.v[i] = (in0).r.v[i] + (in1).r.v[i] + (in2).r.v[i];\
+  (out).i.v[i] = (in0).i.v[i] + (in1).i.v[i] + (in2).i.v[i];
 
 template <typename Tout, typename Tin1, typename Tin2>
 inline void su3mXsu3v(su3v<Tout>& vout, const su3m<Tin1>& min, const su3v<Tin2>& vin, const unsigned int vlength, su3v<Tout>* const t ){
@@ -57,11 +64,33 @@ inline void su3mXsu3v(su3v<Tout>& vout, const su3m<Tin1>& min, const su3v<Tin2>&
     i_cXc( t[0].c2 , min.c02 , vin.c2 );
     i_cXc( t[1].c2 , min.c12 , vin.c2 );
     i_cXc( t[2].c2 , min.c22 , vin.c2 );
-  }
-  for( unsigned int i = 0; i < vlength; ++i){
+//  }
+//  for( unsigned int i = 0; i < vlength; ++i){
     gather_3v( vout.c0, t[0].c0, t[0].c1, t[0].c2 );
     gather_3v( vout.c1, t[1].c0, t[1].c1, t[1].c2 );
     gather_3v( vout.c2, t[2].c0, t[2].c1, t[2].c2 );    
+  }
+}
+
+template <typename Tout, typename Tin1, typename Tin2>
+inline void su3mXsu3v_direct(su3v<Tout>& vout, const su3m<Tin1>& min, const su3v<Tin2>& vin, const unsigned int vlength, su3v<Tout>* const t ){
+  for(unsigned int i = 0; i < vlength; ++i){
+    i_cXc_direct( t[0].c0 , min.c00 , vin.c0 );
+    i_cXc_direct( t[1].c0 , min.c10 , vin.c0 );
+    i_cXc_direct( t[2].c0 , min.c20 , vin.c0 );
+    
+    i_cXc_direct( t[0].c1 , min.c01 , vin.c1 );
+    i_cXc_direct( t[1].c1 , min.c11 , vin.c1 );
+    i_cXc_direct( t[2].c1 , min.c21 , vin.c1 );
+    
+    i_cXc_direct( t[0].c2 , min.c02 , vin.c2 );
+    i_cXc_direct( t[1].c2 , min.c12 , vin.c2 );
+    i_cXc_direct( t[2].c2 , min.c22 , vin.c2 );
+//  }
+//  for( unsigned int i = 0; i < vlength; ++i){
+    gather_3v_direct( vout.c0, t[0].c0, t[0].c1, t[0].c2 );
+    gather_3v_direct( vout.c1, t[1].c0, t[1].c1, t[1].c2 );
+    gather_3v_direct( vout.c2, t[2].c0, t[2].c1, t[2].c2 );    
   }
 }
 

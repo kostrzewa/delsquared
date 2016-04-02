@@ -1,5 +1,5 @@
-#include "../complexField.h"
-#include "../basicmath.h"
+#include "../../complexField.h"
+#include "../../basicmath.h"
 
 #include <iostream>
 #include <random>
@@ -12,10 +12,18 @@ using namespace delsquared;
 int main(void){
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         psize = 512e7;
-  const unsigned int vlength = 32;
-  const size_t          reps = 32768;
-  const size_t           vol = psize/(vlength*reps);
+  const size_t         cache = 4e6;
+  const size_t          wset = 6*sizeof(float);
+  const unsigned int vlength = 128;
+  const size_t           vol = cache/wset/vlength;
+  const size_t          reps = 10000;
+  const size_t         psize = reps*vol*vlength;
+  
+  std::cout << wset*vol*vlength/pow(1024,2) << " MB working set" << std::endl;
+  std::cout << "Problem size " << psize     << std::endl;
+  std::cout << "3-Volume "     << vol       << std::endl;
+  std::cout << "VLength "      << vlength   << std::endl;
+  std::cout << "Repetitions "  << reps      << std::endl << std::endl;
 
   complexField<float> cf_a( vol, halo, vlength );
   complexField<float> cf_b( vol, halo, vlength );
@@ -55,8 +63,7 @@ int main(void){
   std::cout << cf_b.field[33].r[20] << std::endl;
   std::cout << elapsed_seconds.count() << " seconds" << std::endl;
   // 6 flops per complex multiply, we do it 3 times, 1e6 to get mflops
-  std::cout << 3*6*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl;
-  std::cout << 3*2*sizeof(double)*vol*vlength/pow(1024,2) << " MB working set" << std::endl;
+  std::cout << 3*6*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl << std::endl;
 
   return 0;
 }
