@@ -35,12 +35,12 @@ inline void rXc(dsComplex<Tout> &cout, dsReal<Tin1> & rin1, dsComplex<Tin2> & ci
   (out).i[i] = (in1).r(i) * (in2).i(i) + (in1).i(i) * (in2).r(i);
 
 #define cassign( out, in )\
-  (out).r[i] = (in).r[i];\
-  (out).i[i] = (in).i[i];
+  (out).r[i] = (in).r(i);\
+  (out).i[i] = (in).i(i);
 
 #define gather_3v( out, in0, in1, in2 )\
-  (out).r[i] = (in0).r[i] + (in1).r[i] + (in2).r[i];\
-  (out).i[i] = (in0).i[i] + (in1).i[i] + (in2).i[i];
+  (out).r[i] = (in0).r(i) + (in1).r(i) + (in2).r(i);\
+  (out).i[i] = (in0).i(i) + (in1).i(i) + (in2).i(i);
 
 
 template <typename Tout, typename Tin1, typename Tin2>
