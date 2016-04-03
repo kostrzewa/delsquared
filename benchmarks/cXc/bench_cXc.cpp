@@ -12,11 +12,11 @@ using namespace delsquared;
 int main(void){
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         cache = 4e6;
+  const size_t         cache = 3*pow(1024,2);
   const size_t          wset = 6*sizeof(float);
   const unsigned int vlength = 128;
   const size_t           vol = cache/wset/vlength;
-  const size_t          reps = 10000;
+  const size_t          reps = 20000;
   const size_t         psize = reps*vol*vlength;
   
   std::cout << wset*vol*vlength/pow(1024,2) << " MB working set" << std::endl;
@@ -46,16 +46,17 @@ int main(void){
   // TODO: look at modern C++ loops
   std::chrono::time_point<std::chrono::steady_clock> start;
   start = std::chrono::steady_clock::now();
+  const size_t Vs = vol;
 #ifdef DS_OMP
-  omp_set_num_threads(2);
+  omp_set_num_threads(4);
   #pragma omp parallel
   { 
 #endif
   for(int j = 0; j < reps; ++j){
 #ifdef DS_OMP
-    #pragma omp for
+    #pragma omp for nowait
 #endif
-    for(size_t i = 0; i < vol; ++i){
+    for(size_t i = 0; i < Vs; ++i){
         cXc(cf_c.field[i], cf_a.field[i], cf_b.field[i], vlength);
         cXc(cf_a.field[i], cf_c.field[i], cf_b.field[i], vlength);
         cXc(cf_b.field[i], cf_a.field[i], cf_c.field[i], vlength);
