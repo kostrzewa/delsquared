@@ -1,8 +1,8 @@
 top_srcdir = ../..
 
-CXX = g++
+CXX = icpc
 DEFS = -DDS_OMP
-CXXFLAGS = -O3 -mtune=core2 -march=core2 -m64 -msse4.2 -g -ggdb -std=c++11 -fopenmp $(DEFS)
+CXXFLAGS = -O3 -mtune=core-avx2 -march=core-avx2 -m64 -debug -std=c++11 -fopenmp $(DEFS)
 LDFLAGS = -fopenmp
 
 OBJS = bench_cXc.o complexField.o basicmath.o

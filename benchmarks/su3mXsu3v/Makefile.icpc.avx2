@@ -1,7 +1,7 @@
 top_srcdir = ../..
 
-CXX = g++
-CXXFLAGS = -fopenmp -O3 -mtune=core2 -march=core2 -m64 -msse4.2 -g -ggdb -std=c++11
+CXX = icpc
+CXXFLAGS = -fopenmp -O3 -mtune=core-avx2 -march=core-avx2 -m64 -debug -std=c++11
 LDFLAGS = -fopenmp
 
 OBJS = bench_su3mXsu3v.o su3mField.o su3vField.o basicmath.o
