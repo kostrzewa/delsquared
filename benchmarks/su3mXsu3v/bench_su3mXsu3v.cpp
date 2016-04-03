@@ -47,38 +47,41 @@ int main(void){
     vf_b.rawmem[i] = dis(gen);
     vf_c.rawmem[i] = dis(gen);
   }
-
+  
+  const size_t Vs = vol;
   omp_set_num_threads(4);
   // TODO: look at modern C++ loops
   std::chrono::time_point<std::chrono::steady_clock> start;
+  std::chrono::duration<float> elapsed_seconds;
+  
+  
   start = std::chrono::steady_clock::now();
   #pragma omp parallel
   { 
   su3v<float> t[3] = { su3v<float>(vlength), su3v<float>(vlength), su3v<float>(vlength) };
   for(int j = 0; j < reps; ++j){
-    #pragma omp for
-    for(size_t i = 0; i < vol; ++i){
+    #pragma omp for nowait
+    for(size_t i = 0; i < Vs; ++i){
       su3mXsu3v(vf_c.field[i], mf_a.field[i], vf_b.field[i], vlength, t);
       su3mXsu3v(vf_a.field[i], mf_b.field[i], vf_c.field[i], vlength, t);
       su3mXsu3v(vf_b.field[i], mf_c.field[i], vf_a.field[i], vlength, t);
     }
   }
   }
-  std::chrono::duration<double> elapsed_seconds = std::chrono::steady_clock::now()-start;
+  elapsed_seconds = std::chrono::steady_clock::now()-start;
 
   std::cout << vf_b.field[33].c0.r[20] << std::endl;
   std::cout << elapsed_seconds.count() << " seconds" << std::endl;
   // 9*3*2 multiplications, 3*2*2 additions, 3 times
-  std::cout << (9*3*2 + 3*2*2)*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl;
-  std::cout << wset*vol*vlength/pow(1024,2) << " MB working set" << std::endl;
+  std::cout << (9*3*2 + 3*2*2)*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl << std::endl;
 
   start = std::chrono::steady_clock::now();
   #pragma omp parallel
   { 
   su3v<float> t[3] = { su3v<float>(vlength), su3v<float>(vlength), su3v<float>(vlength) };
   for(int j = 0; j < reps; ++j){
-    #pragma omp for
-    for(size_t i = 0; i < vol; ++i){
+    #pragma omp for nowait
+    for(size_t i = 0; i < Vs; ++i){
       su3mXsu3v_direct(vf_c.field[i], mf_a.field[i], vf_b.field[i], vlength, t);
       su3mXsu3v_direct(vf_a.field[i], mf_b.field[i], vf_c.field[i], vlength, t);
       su3mXsu3v_direct(vf_b.field[i], mf_c.field[i], vf_a.field[i], vlength, t);
@@ -90,7 +93,28 @@ int main(void){
   std::cout << vf_b.field[33].c0.r[20] << std::endl;
   std::cout << elapsed_seconds.count() << " seconds" << std::endl;
   // 9*3*2 multiplications, 3*2*2 additions, 3 times
-  std::cout << (9*3*2 + 3*2*2)*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl;
-  std::cout << wset*vol*vlength/pow(1024,2) << " MB working set" << std::endl;
+  std::cout << (9*3*2 + 3*2*2)*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl << std::endl;
+  
+  
+  start = std::chrono::steady_clock::now();
+  #pragma omp parallel
+  { 
+  su3v<float> t[3] = { su3v<float>(vlength), su3v<float>(vlength), su3v<float>(vlength) };
+  for(int j = 0; j < reps; ++j){
+    #pragma omp for nowait
+    for(size_t i = 0; i < Vs; ++i){
+      su3mXsu3v_intrin_float(vf_c.field[i], mf_a.field[i], vf_b.field[i], vlength);
+      su3mXsu3v_intrin_float(vf_a.field[i], mf_b.field[i], vf_c.field[i], vlength);
+      su3mXsu3v_intrin_float(vf_b.field[i], mf_c.field[i], vf_a.field[i], vlength);
+    }
+  }
+  }
+  elapsed_seconds = std::chrono::steady_clock::now()-start;
+
+  std::cout << vf_b.field[33].c0.r[20] << std::endl;
+  std::cout << elapsed_seconds.count() << " seconds" << std::endl;
+  // 9*3*2 multiplications, 3*2*2 additions, 3 times
+  std::cout << (9*3*2 + 3*2*2)*psize/elapsed_seconds.count()/1e6 << " mflop/s" << std::endl << std::endl;
+  
   return 0;
 }

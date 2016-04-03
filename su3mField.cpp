@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
+#include <iostream>
 
 #include "su3mField.h"
 
@@ -13,11 +14,11 @@ namespace delsquared {
     // TODO: call DS_MEMALLOC here
     void* temp = NULL;
     void** ptr = (void**) NULL;
-    temp = malloc(9*2*vlength*vol*sizeof(T)+sizeof(void*)+32);
-    ptr = (void**)(((uintptr_t)temp+(uintptr_t)32+sizeof(void*))&~(uintptr_t)32);
+    temp = malloc(9*2*vlength*vol*sizeof(T)+sizeof(void*)+31);
+    ptr = (void**)(((uintptr_t)temp+(uintptr_t)31+sizeof(void*))&~(uintptr_t)31);
     ptr[-1] = temp;
     rawmem = (T*)ptr;
-    
+
     for(size_t i = 0; i < vol; ++i){
       field[i].c00.r.v = rawmem + 18*i*vlength;
       field[i].c01.r.v = rawmem + 18*i*vlength + vlength;

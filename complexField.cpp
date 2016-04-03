@@ -13,8 +13,8 @@ namespace delsquared {
     // TODO: call DS_MEMALLOC here
     void* temp = NULL;
     void** ptr = (void**) NULL;
-    temp = malloc(2*vlength*vol*sizeof(T)+sizeof(void*)+32);
-    ptr = (void**)(((uintptr_t)temp+(uintptr_t)32+sizeof(void*))&~(uintptr_t)32);
+    temp = malloc(2*vlength*vol*sizeof(T)+sizeof(void*)+31);
+    ptr = (void**)(((uintptr_t)temp+(uintptr_t)31+sizeof(void*))&~(uintptr_t)31);
     ptr[-1] = temp;
     rawmem = (T*)ptr;
     
