@@ -82,41 +82,41 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
   __m128 tc0r, tc0i, tc1r, tc1i, tc2r, tc2i;
   __m128 ttc0r, ttc0i, ttc1r, ttc1i, ttc2r, ttc2i;
   __m128 tttc0r, tttc0i, tttc1r, tttc1i, tttc2r, tttc2i;
-  for(unsigned int i = 0; (i+4) < vlength; i+=4){
-    mc0r = _mm_load_ps( &(min.c00.r.v[i]) );
-    vc0r = _mm_load_ps( &(vin.c0.r.v[i]) );
+  for(unsigned int i = 0; (i+3) < vlength; i+=4){
+    mc0r = _mm_load_ps( &(min.c00.r(i)) );
+    vc0r = _mm_load_ps( &(vin.c0.r(i)) );
     tc0r = _mm_mul_ps( mc0r, vc0r );
     
-    mc1r = _mm_load_ps( &(min.c01.r.v[i]) );
-    vc1r = _mm_load_ps( &(vin.c1.r.v[i]) );
+    mc1r = _mm_load_ps( &(min.c01.r(i)) );
+    vc1r = _mm_load_ps( &(vin.c1.r(i)) );
     tc1r = _mm_mul_ps( mc1r, vc1r );
     
-    mc2r = _mm_load_ps( &(min.c02.r.v[i]) );
-    vc2r = _mm_load_ps( &(vin.c2.r.v[i]) );
+    mc2r = _mm_load_ps( &(min.c02.r(i)) );
+    vc2r = _mm_load_ps( &(vin.c2.r(i)) );
     tc2r = _mm_mul_ps( mc2r, vc2r );
     
     mc0i = _mm_load_ps( min.c00.i.v+i );
     tc0i = _mm_mul_ps( mc0i, vc0r );
 
-    mc1i = _mm_load_ps( &(min.c01.i.v[i]) );
+    mc1i = _mm_load_ps( &(min.c01.i(i)) );
     tc1i = _mm_mul_ps( mc1i, vc1r );
 
-    mc2i = _mm_load_ps( &(min.c02.i.v[i]) );
+    mc2i = _mm_load_ps( &(min.c02.i(i)) );
     tc2i = _mm_mul_ps( mc2i, vc2r );
 
-    vc0i = _mm_load_ps( &(vin.c0.i.v[i]) );
+    vc0i = _mm_load_ps( &(vin.c0.i(i)) );
     ttc0r = _mm_mul_ps( mc0i, vc0i );
-    vc1i = _mm_load_ps( &(vin.c1.i.v[i]) );
+    vc1i = _mm_load_ps( &(vin.c1.i(i)) );
     tttc0r = _mm_sub_ps( tc0r, ttc0r );
     ttc1r = _mm_mul_ps( mc1i, vc1i );
-    vc2i = _mm_load_ps( &(vin.c2.i.v[i]) );
+    vc2i = _mm_load_ps( &(vin.c2.i(i)) );
     tttc1r = _mm_sub_ps( tc1r, ttc1r );
     ttc2r = _mm_mul_ps( mc2i, vc2i );
     tttc2r = _mm_sub_ps( tc2r, ttc2r );
 
     tc1r = _mm_add_ps( tttc0r, tttc1r );
     tc0r = _mm_add_ps( tc1r, tttc2r );
-    _mm_store_ps( &(vout.c0.r.v[i]), tc0r );
+    _mm_store_ps( &(vout.c0.r[i]), tc0r );
 
     ttc0i = _mm_mul_ps( mc0r, vc0i );
     tttc0i = _mm_add_ps( tc0i, ttc0i );
@@ -128,26 +128,26 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
     ttc2i = _mm_mul_ps( mc2r, vc2i );
     tttc2i = _mm_add_ps( tc2i, ttc2i );
     tc0i = _mm_add_ps( tc1i, tttc2i );
-    _mm_store_ps( &(vout.c0.i.v[i]), tc0i );
+    _mm_store_ps( &(vout.c0.i[i]), tc0i );
 
     /////////////////////////////////////
 
-    mc0r = _mm_load_ps( &(min.c10.r.v[i]) );
+    mc0r = _mm_load_ps( &(min.c10.r(i)) );
     tc0r = _mm_mul_ps( mc0r, vc0r );
     
-    mc1r = _mm_load_ps( &(min.c11.r.v[i]) );
+    mc1r = _mm_load_ps( &(min.c11.r(i)) );
     tc1r = _mm_mul_ps( mc1r, vc1r );
     
-    mc2r = _mm_load_ps( &(min.c12.r.v[i]) );
+    mc2r = _mm_load_ps( &(min.c12.r(i)) );
     tc2r = _mm_mul_ps( mc2r, vc2r );
     
-    mc0i = _mm_load_ps( &(min.c10.i.v[i]) );
+    mc0i = _mm_load_ps( &(min.c10.i(i)) );
     tc0i = _mm_mul_ps( mc0i, vc0r );
 
-    mc1i = _mm_load_ps( &(min.c11.i.v[i]) );
+    mc1i = _mm_load_ps( &(min.c11.i(i)) );
     tc1i = _mm_mul_ps( mc1i, vc1r );
 
-    mc2i = _mm_load_ps( &(min.c12.i.v[i]) );
+    mc2i = _mm_load_ps( &(min.c12.i(i)) );
     tc2i = _mm_mul_ps( mc2i, vc2r );
 
     ttc0r = _mm_mul_ps( mc0i, vc0i );
@@ -159,7 +159,7 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
 
     tc1r = _mm_add_ps( tttc0r, tttc1r );
     tc0r = _mm_add_ps( tc1r, tttc2r );
-    _mm_store_ps( &(vout.c1.r.v[i]), tc0r );
+    _mm_store_ps( &(vout.c1.r[i]), tc0r );
 
     ttc0i = _mm_mul_ps( mc0r, vc0i );
     tttc0i = _mm_add_ps( tc0i, ttc0i );
@@ -171,28 +171,28 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
     ttc2i = _mm_mul_ps( mc2r, vc2i );
     tttc2i = _mm_add_ps( tc2i, ttc2i );
     tc0i = _mm_add_ps( tc1i, tttc2i );
-    _mm_store_ps( &(vout.c1.i.v[i]), tc0i );
+    _mm_store_ps( &(vout.c1.i[i]), tc0i );
 
     //////////////////////////////////////////////////////////////////
     //TODO: intersperse with load instructions for next iteration...//
     //////////////////////////////////////////////////////////////////
 
-    mc0r = _mm_load_ps( &(min.c20.r.v[i]) );
+    mc0r = _mm_load_ps( &(min.c20.r(i)) );
     tc0r = _mm_mul_ps( mc0r, vc0r );
     
-    mc1r = _mm_load_ps( &(min.c21.r.v[i]) );
+    mc1r = _mm_load_ps( &(min.c21.r(i)) );
     tc1r = _mm_mul_ps( mc1r, vc1r );
     
-    mc2r = _mm_load_ps( &(min.c22.r.v[i]) );
+    mc2r = _mm_load_ps( &(min.c22.r(i)) );
     tc2r = _mm_mul_ps( mc2r, vc2r );
     
-    mc0i = _mm_load_ps( &(min.c20.i.v[i]) );
+    mc0i = _mm_load_ps( &(min.c20.i(i)) );
     tc0i = _mm_mul_ps( mc0i, vc0r );
 
-    mc1i = _mm_load_ps( &(min.c21.i.v[i]) );
+    mc1i = _mm_load_ps( &(min.c21.i(i)) );
     tc1i = _mm_mul_ps( mc1i, vc1r );
 
-    mc2i = _mm_load_ps( &(min.c22.i.v[i]) );
+    mc2i = _mm_load_ps( &(min.c22.i(i)) );
     tc2i = _mm_mul_ps( mc2i, vc2r );
 
     ttc0r = _mm_mul_ps( mc0i, vc0i );
@@ -204,7 +204,7 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
 
     tc1r = _mm_add_ps( tttc0r, tttc1r );
     tc0r = _mm_add_ps( tc1r, tttc2r );
-    _mm_store_ps( &(vout.c2.r.v[i]), tc0r );
+    _mm_store_ps( &(vout.c2.r[i]), tc0r );
 
     ttc0i = _mm_mul_ps( mc0r, vc0i );
     tttc0i = _mm_add_ps( tc0i, ttc0i );
@@ -216,7 +216,7 @@ inline void su3mXsu3v_intrin_float(su3v<float>& vout, const su3m<float>& min, co
     ttc2i = _mm_mul_ps( mc2r, vc2i );
     tttc2i = _mm_add_ps( tc2i, ttc2i );
     tc0i = _mm_add_ps( tc1i, tttc2i );
-    _mm_store_ps( &(vout.c2.i.v[i]), tc0i );
+    _mm_store_ps( &(vout.c2.i[i]), tc0i );
   }
 }
 

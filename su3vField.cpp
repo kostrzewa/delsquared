@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
-
+#include <cstring>
 #include "su3vField.h"
 
 namespace delsquared {
@@ -18,14 +18,21 @@ namespace delsquared {
     ptr[-1] = temp;
     rawmem = (T*)ptr;
     
+    #pragma omp parallel for    
     for(size_t i = 0; i < vol; ++i){
       field[i].c0.r.v = rawmem + 6*i*vlength;
+      memset( field[i].c0.r.v, 0, vlength*sizeof(T) );
       field[i].c1.r.v = rawmem + 6*i*vlength + vlength;
+      memset( field[i].c1.r.v, 0, vlength*sizeof(T) );
       field[i].c2.r.v = rawmem + 6*i*vlength + 2*vlength;
+      memset( field[i].c2.r.v, 0, vlength*sizeof(T) );
       
       field[i].c0.i.v = rawmem + 6*i*vlength + vlength*3;
+      memset( field[i].c0.i.v, 0, vlength*sizeof(T) );
       field[i].c1.i.v = rawmem + 6*i*vlength + vlength*3 + vlength;
+      memset( field[i].c1.i.v, 0, vlength*sizeof(T) );
       field[i].c2.i.v = rawmem + 6*i*vlength + vlength*3 + 2*vlength;
+      memset( field[i].c2.i.v, 0, vlength*sizeof(T) );
     }
   }
 
