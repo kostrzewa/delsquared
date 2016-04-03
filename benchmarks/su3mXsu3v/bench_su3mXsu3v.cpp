@@ -13,9 +13,9 @@ using namespace delsquared;
 int main(void){
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         cache = 3*pow(1024,2);
+  const size_t         cache = 60*pow(1024,2);
   const size_t          wset = 3*(18+6)*sizeof(float);
-  const unsigned int vlength = 32;
+  const unsigned int vlength = 128;
   const size_t           vol = cache/wset/vlength;
   const size_t          reps = 10000;
   const size_t         psize = reps*vol*vlength;
@@ -49,7 +49,7 @@ int main(void){
   }
   
   const size_t Vs = vol;
-  omp_set_num_threads(4);
+  omp_set_num_threads(48);
   // TODO: look at modern C++ loops
   std::chrono::time_point<std::chrono::steady_clock> start;
   std::chrono::duration<float> elapsed_seconds;

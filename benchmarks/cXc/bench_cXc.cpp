@@ -12,7 +12,7 @@ using namespace delsquared;
 int main(void){
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         cache = 3*pow(1024,2);
+  const size_t         cache = 60*pow(1024,2);
   const size_t          wset = 6*sizeof(float);
   const unsigned int vlength = 128;
   const size_t           vol = cache/wset/vlength;
@@ -48,7 +48,7 @@ int main(void){
   start = std::chrono::steady_clock::now();
   const size_t Vs = vol;
 #ifdef DS_OMP
-  omp_set_num_threads(4);
+  omp_set_num_threads(48);
   #pragma omp parallel
   { 
 #endif
