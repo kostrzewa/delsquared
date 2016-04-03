@@ -43,21 +43,27 @@ int main(void){
     }
   }
 
-  omp_set_num_threads(4);
   // TODO: look at modern C++ loops
   std::chrono::time_point<std::chrono::steady_clock> start;
   start = std::chrono::steady_clock::now();
+#ifdef DS_OMP
+  omp_set_num_threads(2);
   #pragma omp parallel
   { 
+#endif
   for(int j = 0; j < reps; ++j){
+#ifdef DS_OMP
     #pragma omp for
+#endif
     for(size_t i = 0; i < vol; ++i){
         cXc(cf_c.field[i], cf_a.field[i], cf_b.field[i], vlength);
         cXc(cf_a.field[i], cf_c.field[i], cf_b.field[i], vlength);
         cXc(cf_b.field[i], cf_a.field[i], cf_c.field[i], vlength);
     }
   }
+#ifdef DS_OMP
   }
+#endif
   std::chrono::duration<double> elapsed_seconds = std::chrono::steady_clock::now()-start;
 
   std::cout << cf_b.field[33].r[20] << std::endl;

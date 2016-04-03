@@ -1,7 +1,8 @@
 top_srcdir = ../..
 
 CXX = g++
-CXXFLAGS = -fopenmp -O3 -mtune=core2 -march=core2 -m64 -msse4.2 -g -ggdb -std=c++11
+DEFS = -DDS_OMP
+CXXFLAGS = -O3 -mtune=core2 -march=core2 -m64 -msse4.2 -g -ggdb -std=c++11 -fopenmp $(DEFS)
 LDFLAGS = -fopenmp
 
 OBJS = bench_cXc.o complexField.o basicmath.o

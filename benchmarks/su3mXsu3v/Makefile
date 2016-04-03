@@ -18,7 +18,7 @@ su3vField.o: $(top_srcdir)/su3vField.cpp $(top_srcdir)/su3vField.h
 	$(CXX) $(CXXFLAGS) -c $(top_srcdir)/su3vField.cpp
 
 basicmath.o: $(top_srcdir)/basicmath.cpp $(top_srcdir)/basicmath.h
-	$(CXX) -funroll-all-loops $(CXXFLAGS) -c $(top_srcdir)/basicmath.cpp
+	$(CXX) $(CXXFLAGS) -c $(top_srcdir)/basicmath.cpp
 
 bench_su3Xsu3v.o: bench_su3mXsu3v.cpp $(top_srcdir)/basicmath.h $(top_srcdir)/su3vField.h $(top_srcdir)/su3mField.h
 	$(CXX) $(CXXFLAGS) -c bench_su3mXsu3v.cpp

@@ -13,9 +13,9 @@ using namespace delsquared;
 int main(void){
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         cache = 4e6;
+  const size_t         cache = 3*pow(1024,2);
   const size_t          wset = 3*(18+6)*sizeof(float);
-  const unsigned int vlength = 128;
+  const unsigned int vlength = 32;
   const size_t           vol = cache/wset/vlength;
   const size_t          reps = 10000;
   const size_t         psize = reps*vol*vlength;

@@ -43,12 +43,16 @@ inline void rXc(dsComplex<Tout> &cout, dsReal<Tin1> & rin1, dsComplex<Tin2> & ci
   (out).i[i] = (in0).i(i) + (in1).i(i) + (in2).i(i);
 
 #define i_cXc_direct( out, in1, in2 )\
-  (out).r.v[i] = (in1).r.v[i] * (in2).r.v[i] - (in1).i.v[i] * (in2).i.v[i];\
-  (out).i.v[i] = (in1).r.v[i] * (in2).i.v[i] + (in1).i.v[i] * (in2).r.v[i];
+  (out).r.v[i]  = (in1).r.v[i] * (in2).r.v[i];\
+  (out).r.v[i] -= (in1).i.v[i] * (in2).i.v[i];\
+  (out).i.v[i]  = (in1).r.v[i] * (in2).i.v[i];\
+  (out).i.v[i] += (in1).i.v[i] * (in2).r.v[i];
 
 #define gather_3v_direct( out, in0, in1, in2 )\
-  (out).r.v[i] = (in0).r.v[i] + (in1).r.v[i] + (in2).r.v[i];\
-  (out).i.v[i] = (in0).i.v[i] + (in1).i.v[i] + (in2).i.v[i];
+  (out).r.v[i]  = (in0).r.v[i] + (in1).r.v[i];\
+  (out).r.v[i] += (in2).r.v[i];\
+  (out).i.v[i]  = (in0).i.v[i] + (in1).i.v[i];\
+  (out).i.v[i] += (in2).i.v[i];
 
 template <typename Tout, typename Tin1, typename Tin2>
 inline void su3mXsu3v(su3v<Tout>& vout, const su3m<Tin1>& min, const su3v<Tin2>& vin, const unsigned int vlength, su3v<Tout>* const t ){
