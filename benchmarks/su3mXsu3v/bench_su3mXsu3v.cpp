@@ -11,6 +11,8 @@
 using namespace delsquared;
 
 int main(void){
+  omp_set_num_threads(48);
+  
   size_t halo[4] = {0,0,0,0};
 
   const size_t         cache = 60*pow(1024,2);
@@ -49,12 +51,12 @@ int main(void){
   }
   
   const size_t Vs = vol;
-  omp_set_num_threads(48);
   // TODO: look at modern C++ loops
   std::chrono::time_point<std::chrono::steady_clock> start;
   std::chrono::duration<float> elapsed_seconds;
-  
-  
+ 
+
+
   start = std::chrono::steady_clock::now();
   #pragma omp parallel
   { 
