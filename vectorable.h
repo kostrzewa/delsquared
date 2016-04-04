@@ -25,7 +25,7 @@ public:
     void* temp = NULL;                                                                                                                                                              
     void** ptr = (void**) NULL;
     temp = malloc(vlength*sizeof(T)+sizeof(void*)+32);
-    ptr = (void**)(((uintptr_t)temp+(uintptr_t)32+sizeof(void*))&~(uintptr_t)32);
+    ptr = (void**)(((uintptr_t)temp+(uintptr_t)31+sizeof(void*))&~(uintptr_t)31);
     ptr[-1] = temp;
     v = (T*)ptr;
     selfAlloc = true;
@@ -39,9 +39,9 @@ public:
     }
   }
 
-  const T & operator ()(size_t i) const { return v[i]; }
-  T & operator [](size_t i) { return v[i]; }
-  T* v;
+  const T & operator ()(size_t i) __restrict__ const { return v[i]; }
+  T & operator [](size_t i) __restrict__ { return v[i]; }
+  T* v __attribute__ ((aligned (32)));
 
 private:
   bool selfAlloc;

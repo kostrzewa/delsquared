@@ -29,17 +29,75 @@ inline void rXc(dsComplex<Tout> &cout, dsReal<Tin1> & rin1, dsComplex<Tin2> & ci
   }
 }
 
+/* #define i_cXc( out, in1, in2 )\
+  (out).r.v[i  ]  = (in1).r.v[i  ] * (in2).r.v[i  ];\
+  (out).r.v[i+1]  = (in1).r.v[i+1] * (in2).r.v[i+1];\
+  (out).r.v[i+2]  = (in1).r.v[i+2] * (in2).r.v[i+2];\
+  (out).r.v[i+3]  = (in1).r.v[i+3] * (in2).r.v[i+3];\
+  (out).r.v[i  ] -= (in1).i.v[i  ] * (in2).i.v[i  ];\
+  (out).r.v[i+1] -= (in1).i.v[i+1] * (in2).i.v[i+1];\
+  (out).r.v[i+2] -= (in1).i.v[i+2] * (in2).i.v[i+2];\
+  (out).r.v[i+3] -= (in1).i.v[i+3] * (in2).i.v[i+2];\
+  (out).i.v[i  ]  = (in1).r.v[i  ] * (in2).i.v[i  ];\
+  (out).i.v[i+1]  = (in1).r.v[i+1] * (in2).i.v[i+1];\
+  (out).i.v[i+2]  = (in1).r.v[i+2] * (in2).i.v[i+2];\
+  (out).i.v[i+3]  = (in1).r.v[i+3] * (in2).i.v[i+3];\
+  (out).i.v[i]   += (in1).i.v[i  ] * (in2).r.v[i  ];\
+  (out).i.v[i+1] += (in1).i.v[i+1] * (in2).r.v[i+1];\
+  (out).i.v[i+2] += (in1).i.v[i+2] * (in2).r.v[i+2];\
+  (out).i.v[i+3] += (in1).i.v[i+3] * (in2).r.v[i+3]; */
+
+//#define i_cXc( out, in1, in2 )\
+//  (out).r.v[i  ]  = (in1).r.v[i  ] * (in2).r.v[i  ];\
+//  (out).r.v[i  ] -= (in1).i.v[i  ] * (in2).i.v[i  ];\
+//  (out).i.v[i  ]  = (in1).r.v[i  ] * (in2).i.v[i  ];\
+//  (out).i.v[i]   += (in1).i.v[i  ] * (in2).r.v[i  ];
+
 #define i_cXc( out, in1, in2 )\
-  (out).r[i] = (in1).r(i) * (in2).r(i) - (in1).i(i) * (in2).i(i);\
-  (out).i[i] = (in1).r(i) * (in2).i(i) + (in1).i(i) * (in2).r(i);
+  (out).r[i  ]  = (in1).r(i  ) * (in2).r(i  );\
+  (out).r[i  ] -= (in1).i(i  ) * (in2).i(i  );\
+  (out).i[i  ]  = (in1).r(i  ) * (in2).i(i  );\
+  (out).i[i]   += (in1).i(i  ) * (in2).r(i  );
+
+//#define i_cXc( out, in1, in2 )\
+//  (out).r.v[i  ]  = (in1).r.v[i  ] * (in2).r.v[i  ] \
+//  - (in1).i.v[i  ] * (in2).i.v[i  ];\
+//  (out).i.v[i  ]  = (in1).r.v[i  ] * (in2).i.v[i  ] \
+//  + (in1).i.v[i  ] * (in2).r.v[i  ];
 
 #define cassign( out, in )\
   (out).r[i] = (in).r(i);\
   (out).i[i] = (in).i(i);
 
+/* #define gather_3v( out, in0, in1, in2 )\
+  (out).r.v[i  ]  = (in0).r.v[i  ] + (in1).r.v[i  ];\
+  (out).r.v[i+1]  = (in0).r.v[i+1] + (in1).r.v[i+1];\
+  (out).r.v[i+2]  = (in0).r.v[i+2] + (in1).r.v[i+2];\
+  (out).r.v[i+3]  = (in0).r.v[i+3] + (in1).r.v[i+3];\
+  (out).r.v[i  ] += (in2).r.v[i  ];\
+  (out).r.v[i+1] += (in2).r.v[i+1];\
+  (out).r.v[i+2] += (in2).r.v[i+2];\
+  (out).r.v[i+3] += (in2).r.v[i+3];\
+  (out).i.v[i  ]  = (in0).i.v[i  ] + (in1).i.v[i  ];\
+  (out).i.v[i+1]  = (in0).i.v[i+1] + (in1).i.v[i+1];\
+  (out).i.v[i+2]  = (in0).i.v[i+2] + (in1).i.v[i+2];\
+  (out).i.v[i+3]  = (in0).i.v[i+3] + (in1).i.v[i+3];\
+  (out).i.v[i  ] += (in2).i.v[i  ];\
+  (out).i.v[i+1] += (in2).i.v[i+1];\
+  (out).i.v[i+2] += (in2).i.v[i+2];\
+  (out).i.v[i+3] += (in2).i.v[i+3];\ */
+
+//#define gather_3v( out, in0, in1, in2 )\
+//  (out).r.v[i  ]  = (in0).r.v[i  ] + (in1).r.v[i  ];\
+//  (out).r.v[i  ] += (in2).r.v[i  ];\
+//  (out).i.v[i  ]  = (in0).i.v[i  ] + (in1).i.v[i  ];\
+//  (out).i.v[i  ] += (in2).i.v[i  ];
+
 #define gather_3v( out, in0, in1, in2 )\
-  (out).r[i] = (in0).r(i) + (in1).r(i) + (in2).r(i);\
-  (out).i[i] = (in0).i(i) + (in1).i(i) + (in2).i(i);
+  (out).r.v[i  ]  = (in0).r.v[i  ] + (in1).r.v[i  ];\
+  (out).r.v[i  ] += (in2).r.v[i  ];\
+  (out).i.v[i  ]  = (in0).i.v[i  ] + (in1).i.v[i  ];\
+  (out).i.v[i  ] += (in2).i.v[i  ];
 
 #define i_cXc_direct( out, in1, in2 )\
   (out).r.v[i]  = (in1).r.v[i] * (in2).r.v[i];\
@@ -53,26 +111,188 @@ inline void rXc(dsComplex<Tout> &cout, dsReal<Tin1> & rin1, dsComplex<Tin2> & ci
   (out).i.v[i]  = (in0).i.v[i] + (in1).i.v[i];\
   (out).i.v[i] += (in2).i.v[i];
 
+#define AL __attribute__ ((aligned (32)))
+
+#define vmul( out, in1, in2 )\
+  *((out)+0) = *((in1)+0) * *((in2)+0);\
+  *((out)+1) = *((in1)+1) * *((in2)+1);\
+  *((out)+2) = *((in1)+2) * *((in2)+2);\
+  *((out)+3) = *((in1)+3) * *((in2)+3);
+
 template <typename Tout, typename Tin1, typename Tin2>
 inline void su3mXsu3v(su3v<Tout>& vout, const su3m<Tin1>& min, const su3v<Tin2>& vin, const unsigned int vlength, su3v<Tout>* const t ){
+//  const unsigned int vincr = 4;
+//  Tout t0r[vlength] AL, t0i[vlength] AL, t1r[vlength] AL, t1i[vlength] AL, t2r[vlength] AL, t2i[vlength] AL;
+//
+//  const Tin1* __restrict__ const mc00r AL = &(min.c00.r(0)); const Tin1* __restrict__ const mc00i AL = &(min.c00.i(0));    
+//  const Tin1* __restrict__ const mc01r AL = &(min.c01.r(0)); const Tin1* __restrict__ const mc01i AL = &(min.c01.i(0));
+//  const Tin1* __restrict__ const mc02r AL = &(min.c02.r(0)); const Tin1* __restrict__ const mc02i AL = &(min.c02.i(0));
+//  const Tin1* __restrict__ const mc10r AL = &(min.c10.r(0)); const Tin1* __restrict__ const mc10i AL = &(min.c10.i(0));
+//  const Tin1* __restrict__ const mc11r AL = &(min.c11.r(0)); const Tin1* __restrict__ const mc11i AL = &(min.c11.i(0));
+//  const Tin1* __restrict__ const mc12r AL = &(min.c12.r(0)); const Tin1* __restrict__ const mc12i AL = &(min.c12.i(0));
+//  const Tin1* __restrict__ const mc20r AL = &(min.c20.r(0)); const Tin1* __restrict__ const mc20i AL = &(min.c20.i(0));
+//  const Tin1* __restrict__ const mc21r AL = &(min.c21.r(0)); const Tin1* __restrict__ const mc21i AL = &(min.c21.i(0));
+//  const Tin1* __restrict__ const mc22r AL = &(min.c22.r(0)); const Tin1* __restrict__ const mc22i AL = &(min.c22.i(0));
+//
+//  const Tin2* __restrict__ const vc0r AL = &(vin.c0.r(0));   const Tin2* __restrict__ const vc0i AL = &(vin.c0.r(0));
+//  const Tin2* __restrict__ const vc1r AL = &(vin.c1.r(0));   const Tin2* __restrict__ const vc1i AL = &(vin.c1.r(0));
+//  const Tin2* __restrict__ const vc2r AL = &(vin.c2.r(0));   const Tin2* __restrict__ const vc2i AL = &(vin.c2.r(0));
+//
+//  Tout* __restrict__ const oc0r AL = &(vout.c0.r[0]); Tout* __restrict__ const oc0i AL = &(vout.c0.r[0]);
+//  Tout* __restrict__ const oc1r AL = &(vout.c1.r[0]); Tout* __restrict__ const oc1i AL = &(vout.c1.r[0]);
+//  Tout* __restrict__ const oc2r AL = &(vout.c2.r[0]); Tout* __restrict__ const oc2i AL = &(vout.c2.r[0]);
+//
+//  for(unsigned int i = 0; i < vlength; ++i){
+//    *(oc0r+i) = *(mc00r+i) * *(vc0r+i);
+//  } for(unsigned int i = 0; i < vlength; ++i){
+//    *(oc1r+i) = *(mc01r+i) * *(vc1r+i);
+//    *(oc2r+i) = *(mc02r+i) * *(vc2r+i);
+//    *(oc0i+i) = *(mc00i+i) * *(vc0i+i);
+//    *(oc1i+i) = *(mc01i+i) * *(vc1i+i);
+//    *(oc2i+i) = *(mc02i+i) * *(vc2i+i);
+
+//    vmul( oc0r+i, mc00r+i, vc0r+i );
+//    vmul( oc1r+i, mc01r+i, vc1r+i );
+//    vmul( oc2r+i, mc02r+i, vc2r+i );
+//    vmul( oc0i+i, mc01i+i, vc0i+i );
+//    vmul( oc1i+i, mc02i+i, vc1i+i );
+//    vmul( oc2i+i, mc02i+i, vc2i+i );
+
   for(unsigned int i = 0; i < vlength; ++i){
-    i_cXc( t[0].c0 , min.c00 , vin.c0 );
-    i_cXc( t[1].c0 , min.c10 , vin.c0 );
-    i_cXc( t[2].c0 , min.c20 , vin.c0 );
-    
-    i_cXc( t[0].c1 , min.c01 , vin.c1 );
-    i_cXc( t[1].c1 , min.c11 , vin.c1 );
-    i_cXc( t[2].c1 , min.c21 , vin.c1 );
-    
-    i_cXc( t[0].c2 , min.c02 , vin.c2 );
-    i_cXc( t[1].c2 , min.c12 , vin.c2 );
-    i_cXc( t[2].c2 , min.c22 , vin.c2 );
-//  }
-//  for( unsigned int i = 0; i < vlength; ++i){
-    gather_3v( vout.c0, t[0].c0, t[0].c1, t[0].c2 );
-    gather_3v( vout.c1, t[1].c0, t[1].c1, t[1].c2 );
-    gather_3v( vout.c2, t[2].c0, t[2].c1, t[2].c2 );    
+    t[0].c0.r[i] = min.c00.r(i) * vin.c0.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c0.r[i] = min.c10.r(i) * vin.c0.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c0.r[i] = min.c20.r(i) * vin.c0.r(i);
   }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c1.r[i] = min.c01.r(i) * vin.c1.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c1.r[i] = min.c11.r(i) * vin.c1.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c1.r[i] = min.c21.r(i) * vin.c1.r(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c2.r[i] = min.c02.r(i) * vin.c2.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c2.r[i] = min.c12.r(i) * vin.c2.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.r[i] = min.c22.r(i) * vin.c2.r(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c0.r[i] -= min.c00.i(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c0.r[i] -= min.c10.i(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c0.r[i] -= min.c20.i(i) * vin.c0.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c1.r[i] -= min.c01.i(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c1.r[i] -= min.c11.i(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.r[i] -= min.c21.i(i) * vin.c1.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c2.r[i] -= min.c02.i(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c2.r[i] -= min.c12.i(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.r[i] -= min.c22.i(i) * vin.c2.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c0.i[i] = min.c00.r(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c0.i[i] = min.c10.r(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c0.i[i] = min.c20.r(i) * vin.c0.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c1.i[i] = min.c01.r(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c1.i[i] = min.c11.r(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c1.i[i] = min.c21.r(i) * vin.c1.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c2.i[i] = min.c02.r(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c2.i[i] = min.c12.r(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.i[i] = min.c22.r(i) * vin.c2.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c0.i[i] += min.c00.r(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c0.i[i] += min.c10.r(i) * vin.c0.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c0.i[i] += min.c20.r(i) * vin.c0.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c1.i[i] += min.c01.r(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c1.i[i] += min.c11.r(i) * vin.c1.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.i[i] += min.c21.r(i) * vin.c1.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    t[0].c2.i[i] += min.c02.r(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[1].c2.i[i] += min.c12.r(i) * vin.c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    t[2].c2.i[i] += min.c22.r(i) * vin.c2.i(i);
+  }
+
+  for(unsigned int i = 0; i < vlength; ++i){
+    vout.c0.r[i] = t[0].c0.r(i) + t[0].c1.r(i) + t[0].c2.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    vout.c0.i[i] = t[0].c0.i(i) + t[0].c1.i(i) + t[0].c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    vout.c1.r[i] = t[1].c0.r(i) + t[1].c1.r(i) + t[1].c2.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    vout.c1.i[i] = t[1].c0.i(i) + t[1].c1.i(i) + t[1].c2.i(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    vout.c2.r[i] = t[2].c0.r(i) + t[2].c1.r(i) + t[2].c2.r(i);
+  }for(unsigned int i = 0; i < vlength; ++i){
+    vout.c2.i[i] = t[2].c0.i(i) + t[2].c1.i(i) + t[2].c2.i(i);
+  }
+
+//  for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[0].c0 , min.c00 , vin.c0 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[1].c0 , min.c10 , vin.c0 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[2].c0 , min.c20 , vin.c0 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[0].c1 , min.c01 , vin.c1 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[1].c1 , min.c11 , vin.c1 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[2].c1 , min.c21 , vin.c1 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[0].c2 , min.c02 , vin.c2 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[1].c2 , min.c12 , vin.c2 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    i_cXc( t[2].c2 , min.c22 , vin.c2 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    gather_3v( vout.c0, t[0].c0, t[0].c1, t[0].c2 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    gather_3v( vout.c1, t[1].c0, t[1].c1, t[1].c2 );
+//  }for(unsigned int i = 0; i < vlength; ++i){
+//    gather_3v( vout.c2, t[2].c0, t[2].c1, t[2].c2 );    
+//  }
 }
 
 //template <typename Tout, typename Tin1, typename Tin2>

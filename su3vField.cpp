@@ -20,18 +20,18 @@ namespace delsquared {
     
     #pragma omp parallel for    
     for(size_t i = 0; i < vol; ++i){
-      field[i].c0.r.v = rawmem + 6*i*vlength;
+      field[i].c0.r.v = rawmem + 3*i*vlength;
       memset( field[i].c0.r.v, 0, vlength*sizeof(T) );
-      field[i].c1.r.v = rawmem + 6*i*vlength + vlength;
+      field[i].c1.r.v = rawmem + 3*i*vlength + vlength;
       memset( field[i].c1.r.v, 0, vlength*sizeof(T) );
-      field[i].c2.r.v = rawmem + 6*i*vlength + 2*vlength;
+      field[i].c2.r.v = rawmem + 3*i*vlength + 2*vlength;
       memset( field[i].c2.r.v, 0, vlength*sizeof(T) );
       
-      field[i].c0.i.v = rawmem + 6*i*vlength + vlength*3;
+      field[i].c0.i.v = rawmem + 3*vol*vlength + 3*i*vlength;
       memset( field[i].c0.i.v, 0, vlength*sizeof(T) );
-      field[i].c1.i.v = rawmem + 6*i*vlength + vlength*3 + vlength;
+      field[i].c1.i.v = rawmem + 3*vol*vlength + 3*i*vlength + vlength;
       memset( field[i].c1.i.v, 0, vlength*sizeof(T) );
-      field[i].c2.i.v = rawmem + 6*i*vlength + vlength*3 + 2*vlength;
+      field[i].c2.i.v = rawmem + 3*vol*vlength + 3*i*vlength + 2*vlength;
       memset( field[i].c2.i.v, 0, vlength*sizeof(T) );
     }
   }
