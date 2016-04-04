@@ -1,7 +1,9 @@
 top_srcdir = ../..
 
+DEFS=-DDS_OMP -DDS_FMA
+
 CXX = icpc
-CXXFLAGS = -fopenmp -O3 -mtune=core-avx2 -march=core-avx2 -m64 -debug -std=c++11
+CXXFLAGS = -fopenmp -O3 -mtune=core-avx2 -march=core-avx2 -m64 -debug -std=c++11 -vec-report ${DEFS}
 LDFLAGS = -fopenmp
 
 OBJS = bench_su3mXsu3v.o su3mField.o su3vField.o basicmath.o

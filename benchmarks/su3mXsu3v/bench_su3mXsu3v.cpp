@@ -15,9 +15,9 @@ int main(void){
   
   size_t halo[4] = {0,0,0,0};
 
-  const size_t         cache = 60*pow(1024,2);
+  const size_t         cache = 40*pow(1024,2);
   const size_t          wset = 3*(18+6)*sizeof(float);
-  const unsigned int vlength = 128;
+  const unsigned int vlength = 512;
   const size_t           vol = cache/wset/vlength;
   const size_t          reps = 10000;
   const size_t         psize = reps*vol*vlength;
@@ -38,7 +38,7 @@ int main(void){
 
   std::random_device r;
   std::mt19937 gen(r());
-  std::uniform_real_distribution<float> dis(-0.5,0.5);
+  std::uniform_real_distribution<float> dis(-0.9,0.9);
   for(size_t i = 0; i < 18*vlength*vol; ++i){
     mf_a.rawmem[i] = dis(gen);
     mf_b.rawmem[i] = dis(gen);

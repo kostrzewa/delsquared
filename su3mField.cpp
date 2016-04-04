@@ -23,44 +23,46 @@ namespace delsquared {
     // first touch allocation, hopefully this makes it NUMA-aware
     #pragma omp parallel for
     for(size_t i = 0; i < vol; ++i){
-//      field[i].c00.r.v = rawmem + 18*i*vlength;
-//      memset( field[i].c00.r.v, 0, vlength*sizeof(T) );
-//      field[i].c01.r.v = rawmem + 18*i*vlength + vlength;
-//      memset( field[i].c01.r.v, 0, vlength*sizeof(T) );
-//      field[i].c02.r.v = rawmem + 18*i*vlength + 2*vlength;
-//      memset( field[i].c02.r.v, 0, vlength*sizeof(T) );
-//      field[i].c10.r.v = rawmem + 18*i*vlength + 3*vlength;
-//      memset( field[i].c10.r.v, 0, vlength*sizeof(T) );
-//      field[i].c11.r.v = rawmem + 18*i*vlength + 4*vlength;
-//      memset( field[i].c11.r.v, 0, vlength*sizeof(T) );
-//      field[i].c12.r.v = rawmem + 18*i*vlength + 5*vlength;
-//      memset( field[i].c12.r.v, 0, vlength*sizeof(T) );
-//      field[i].c20.r.v = rawmem + 18*i*vlength + 6*vlength;
-//      memset( field[i].c20.r.v, 0, vlength*sizeof(T) );
-//      field[i].c21.r.v = rawmem + 18*i*vlength + 7*vlength;
-//      memset( field[i].c21.r.v, 0, vlength*sizeof(T) );
-//      field[i].c22.r.v = rawmem + 18*i*vlength + 8*vlength;
-//      memset( field[i].c22.r.v, 0, vlength*sizeof(T) );
-//
-//      field[i].c00.i.v = rawmem + 18*i*vlength + 9*vlength;
-//      memset( field[i].c00.i.v, 0, vlength*sizeof(T) );
-//      field[i].c01.i.v = rawmem + 18*i*vlength + 9*vlength + vlength;
-//      memset( field[i].c01.i.v, 0, vlength*sizeof(T) );
-//      field[i].c02.i.v = rawmem + 18*i*vlength + 9*vlength + 2*vlength;
-//      memset( field[i].c02.i.v, 0, vlength*sizeof(T) );
-//      field[i].c10.i.v = rawmem + 18*i*vlength + 9*vlength + 3*vlength;
-//      memset( field[i].c10.i.v, 0, vlength*sizeof(T) );
-//      field[i].c11.i.v = rawmem + 18*i*vlength + 9*vlength + 4*vlength;
-//      memset( field[i].c11.i.v, 0, vlength*sizeof(T) );
-//      field[i].c12.i.v = rawmem + 18*i*vlength + 9*vlength + 5*vlength;
-//      memset( field[i].c12.i.v, 0, vlength*sizeof(T) );
-//      field[i].c20.i.v = rawmem + 18*i*vlength + 9*vlength + 6*vlength;
-//      memset( field[i].c20.i.v, 0, vlength*sizeof(T) );
-//      field[i].c21.i.v = rawmem + 18*i*vlength + 9*vlength + 7*vlength;
-//      memset( field[i].c21.i.v, 0, vlength*sizeof(T) );
-//      field[i].c22.i.v = rawmem + 18*i*vlength + 9*vlength + 8*vlength;
-//      memset( field[i].c22.i.v, 0, vlength*sizeof(T) );
-      
+      // r and i separated by n*vlength
+      //field[i].c00.r.v = rawmem + 18*i*vlength;
+      //memset( field[i].c00.r.v, 0, vlength*sizeof(T) );
+      //field[i].c01.r.v = rawmem + 18*i*vlength + vlength;
+      //memset( field[i].c01.r.v, 0, vlength*sizeof(T) );
+      //field[i].c02.r.v = rawmem + 18*i*vlength + 2*vlength;
+      //memset( field[i].c02.r.v, 0, vlength*sizeof(T) );
+      //field[i].c10.r.v = rawmem + 18*i*vlength + 3*vlength;
+      //memset( field[i].c10.r.v, 0, vlength*sizeof(T) );
+      //field[i].c11.r.v = rawmem + 18*i*vlength + 4*vlength;
+      //memset( field[i].c11.r.v, 0, vlength*sizeof(T) );
+      //field[i].c12.r.v = rawmem + 18*i*vlength + 5*vlength;
+      //memset( field[i].c12.r.v, 0, vlength*sizeof(T) );
+      //field[i].c20.r.v = rawmem + 18*i*vlength + 6*vlength;
+      //memset( field[i].c20.r.v, 0, vlength*sizeof(T) );
+      //field[i].c21.r.v = rawmem + 18*i*vlength + 7*vlength;
+      //memset( field[i].c21.r.v, 0, vlength*sizeof(T) );
+      //field[i].c22.r.v = rawmem + 18*i*vlength + 8*vlength;
+      //memset( field[i].c22.r.v, 0, vlength*sizeof(T) );
+
+      //field[i].c00.i.v = rawmem + 18*i*vlength + 9*vlength;
+      //memset( field[i].c00.i.v, 0, vlength*sizeof(T) );
+      //field[i].c01.i.v = rawmem + 18*i*vlength + 9*vlength + vlength;
+      //memset( field[i].c01.i.v, 0, vlength*sizeof(T) );
+      //field[i].c02.i.v = rawmem + 18*i*vlength + 9*vlength + 2*vlength;
+      //memset( field[i].c02.i.v, 0, vlength*sizeof(T) );
+      //field[i].c10.i.v = rawmem + 18*i*vlength + 9*vlength + 3*vlength;
+      //memset( field[i].c10.i.v, 0, vlength*sizeof(T) );
+      //field[i].c11.i.v = rawmem + 18*i*vlength + 9*vlength + 4*vlength;
+      //memset( field[i].c11.i.v, 0, vlength*sizeof(T) );
+      //field[i].c12.i.v = rawmem + 18*i*vlength + 9*vlength + 5*vlength;
+      //memset( field[i].c12.i.v, 0, vlength*sizeof(T) );
+      //field[i].c20.i.v = rawmem + 18*i*vlength + 9*vlength + 6*vlength;
+      //memset( field[i].c20.i.v, 0, vlength*sizeof(T) );
+      //field[i].c21.i.v = rawmem + 18*i*vlength + 9*vlength + 7*vlength;
+      //memset( field[i].c21.i.v, 0, vlength*sizeof(T) );
+      //field[i].c22.i.v = rawmem + 18*i*vlength + 9*vlength + 8*vlength;
+      //memset( field[i].c22.i.v, 0, vlength*sizeof(T) );
+
+      // r and i separated by n*vol
       field[i].c00.r.v = rawmem + 9*i*vlength;
       memset( field[i].c00.r.v, 0, vlength*sizeof(T) );
       field[i].c01.r.v = rawmem + 9*i*vlength + vlength;
